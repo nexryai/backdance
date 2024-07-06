@@ -36,6 +36,14 @@ func (c *CommonFeedProxyService) Fetch(url string) (*model.Feed, error) {
 		return nil, ErrFeedIsNil
 	}
 
+	var imageUrl string
+	if feed.Image != nil {
+		imageUrl = feed.Image.URL
+	} else {
+		imageUrl = ""
+
+	}
+
 	res := &model.Feed{
 		Title:       feed.Title,
 		Description: feed.Description,
@@ -46,7 +54,7 @@ func (c *CommonFeedProxyService) Fetch(url string) (*model.Feed, error) {
 		PublishedAt: feed.PublishedParsed,
 		Authors:     make([]*model.Person, 0),
 		Language:    feed.Language,
-		ImageUrl:    feed.Image.URL,
+		ImageUrl:    imageUrl,
 		Copyright:   feed.Copyright,
 		Items:       make([]*model.Item, 0),
 	}
@@ -59,6 +67,14 @@ func (c *CommonFeedProxyService) Fetch(url string) (*model.Feed, error) {
 	}
 
 	for _, item := range feed.Items {
+		var imageUrl string
+
+		if item.Image != nil {
+			imageUrl = item.Image.URL
+		} else {
+			imageUrl = ""
+		}
+
 		res.Items = append(res.Items, &model.Item{
 			Title:       item.Title,
 			Description: item.Description,
@@ -67,9 +83,13 @@ func (c *CommonFeedProxyService) Fetch(url string) (*model.Feed, error) {
 			Links:       item.Links,
 			UpdatedAt:   item.UpdatedParsed,
 			PublishedAt: item.PublishedParsed,
-			ImageUrl:    item.Image.URL,
+			ImageUrl:    imageUrl,
 		})
 	}
 
 	return res, nil
+}
+
+func NewCommonFeedProxyService() *CommonFeedProxyService {
+	return &CommonFeedProxyService{}
 }
