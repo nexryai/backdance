@@ -7,11 +7,6 @@ type Person struct {
 	Email string `json:"email,omitempty"`
 }
 
-type Image struct {
-	URL   string `json:"url,omitempty"`
-	Title string `json:"title,omitempty"`
-}
-
 type Item struct {
 	Title       string     `json:"title,omitempty"`
 	Description string     `json:"description,omitempty"`
