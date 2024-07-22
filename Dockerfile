@@ -4,8 +4,6 @@ WORKDIR /app
 
 COPY . ./
 
-ENV CGO_ENABLED=0
-
 RUN apk add --no-cache go git ca-certificates build-base \
  && go build -buildmode=pie -ldflags="-s -w" -trimpath -o backdance main.go
 
